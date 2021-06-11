@@ -26,9 +26,11 @@ usersRouter.get("/", jwtAuthMiddleware, adminOnlyMiddleware, async (req, res, ne
   }
 })
 
-usersRouter.get("/me/accomodation", jwtAuthMiddleware, adminOnlyMiddleware,async (req, res, next) => {
+usersRouter.get("/me/accomodation", jwtAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
   try {
+    //const id = req.user._id
     const accomodation = await AccomodationModel.find()
+
     res.send(accomodation)
   } catch (error) {
     next(error)

@@ -7,16 +7,16 @@ const accomorouter = Router();
 
 accomorouter.get('/',jwtAuthMiddleware, async (req, res, next) => {
   try {
-    const accomodations = await AccomodationModel.find({}).populate("users");
+    const accomodations = await AccomodationModel.find({}).populate("users", "name");
     res.status(200).send(accomodations);
   } catch (error) {
     next(error);
   }
 });
 
-accomorouter.post('/',jwtAuthMiddleware, async (req, res, next) => {
+accomorouter.post('/:id',jwtAuthMiddleware, async (req, res, next) => {
   try {
-    const newAccomodation = await AccomodationModel.create(req.body);
+    const newAccomodation = await AccomodationModel.create({...req.body, users: req.params.id });
     res.status(201).send(newAccomodation);
   } catch (error) {
     next(error);
