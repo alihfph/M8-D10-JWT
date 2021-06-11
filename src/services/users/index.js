@@ -2,6 +2,7 @@ import express from "express"
 import UserModel from "./schema.js"
 import { adminOnlyMiddleware, jwtAuthMiddleware } from "../../auth/index.js"
 import { authenticate, refreshToken } from "../../auth/tools.js"
+import AccomodationModel from "../accomodation/schema.js"
 
 const usersRouter = express.Router()
 
@@ -24,6 +25,16 @@ usersRouter.get("/", jwtAuthMiddleware, adminOnlyMiddleware, async (req, res, ne
     next(error)
   }
 })
+
+usersRouter.get("/me/accomodation", jwtAuthMiddleware, adminOnlyMiddleware,async (req, res, next) => {
+  try {
+    const accomodation = await AccomodationModel.find()
+    res.send(accomodation)
+  } catch (error) {
+    next(error)
+  }
+})
+
 
 usersRouter.get("/me", jwtAuthMiddleware, async (req, res, next) => {
   try {

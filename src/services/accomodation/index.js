@@ -1,6 +1,7 @@
 
 import AccomodationModel from './schema.js';
 import { Router } from 'express';
+import { adminOnlyMiddleware, jwtAuthMiddleware } from "../../auth/index.js"
 
 const accomorouter = Router();
 
@@ -27,6 +28,7 @@ accomorouter.get('/:id', async (req, res, next) => {
 
     const id = req.params.id
     const newAccomodation = await AccomodationModel.findById(id)
+    .sort("-createdAt");
     if (newAccomodation){
       res.status(200).send(newAccomodation)
     } else {
