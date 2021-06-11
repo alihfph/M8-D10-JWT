@@ -7,6 +7,7 @@ const AccomodationMondel = new Schema(
     description: String,
     maxGuests: Number,
     city: String,
+    users: { type: Schema.Types.ObjectId, required: true, ref: "User" },
   },
   {
     timestamps: true,

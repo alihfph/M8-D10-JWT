@@ -75,6 +75,7 @@ usersRouter.post("/login", async (req, res, next) => {
   try {
     const { email, password } = req.body
     const user = await UserModel.checkCredentials(email, password)
+    console.log(user)
     const tokens = await authenticate(user)
     res.send(tokens)
   } catch (error) {

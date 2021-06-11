@@ -5,16 +5,16 @@ import { adminOnlyMiddleware, jwtAuthMiddleware } from "../../auth/index.js"
 
 const accomorouter = Router();
 
-accomorouter.get('/', async (req, res, next) => {
+accomorouter.get('/',jwtAuthMiddleware, async (req, res, next) => {
   try {
-    const accomodations = await AccomodationModel.find({});
+    const accomodations = await AccomodationModel.find({}).populate("users");
     res.status(200).send(accomodations);
   } catch (error) {
     next(error);
   }
 });
 
-accomorouter.post('/', async (req, res, next) => {
+accomorouter.post('/',jwtAuthMiddleware, async (req, res, next) => {
   try {
     const newAccomodation = await AccomodationModel.create(req.body);
     res.status(201).send(newAccomodation);
